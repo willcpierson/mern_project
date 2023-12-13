@@ -8,6 +8,7 @@ const { isProduction } = require('./config/keys');
 
 const usersRouter = require('./routes/api/users');
 const tweetsRouter = require('./routes/api/tweets');
+const csrfRouter = require('./routes/api/csrf')
 
 const app = express();
 
@@ -25,8 +26,21 @@ if (!isProduction) {
   app.use(cors());
 }
 
+const csurf = require('csurf');
+// ...
+app.use(
+  csurf({
+    cookie: {
+      secure: isProduction,
+      sameSite: isProduction && "Lax",
+      httpOnly: true
+    }
+  })
+);
+
 // Attach Express routers
 app.use('/api/users', usersRouter);
 app.use('/api/tweets', tweetsRouter);
+app.use('/api/csrf', csrfRouter);
 
 module.exports = app;
