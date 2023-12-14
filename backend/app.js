@@ -2,11 +2,10 @@ const express = require("express");
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const debug = require('debug');
-
-// ADD THESE TWO LINES
 const cors = require('cors');
 const { isProduction } = require('./config/keys');
 
+// Routers
 const usersRouter = require('./routes/api/users');
 const tweetsRouter = require('./routes/api/tweets');
 const csrfRouter = require('./routes/api/csrf')
@@ -28,7 +27,6 @@ if (!isProduction) {
 }
 
 const csurf = require('csurf');
-// ...
 app.use(
   csurf({
     cookie: {
@@ -39,7 +37,7 @@ app.use(
   })
 );
 
-// Attach Express routers
+// Express routers
 app.use('/api/users', usersRouter);
 app.use('/api/tweets', tweetsRouter);
 app.use('/api/csrf', csrfRouter);
