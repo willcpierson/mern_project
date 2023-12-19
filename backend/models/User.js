@@ -18,4 +18,4 @@ const userSchema = Schema({
         {
             timestamps: true
         }
-    )
+    );
